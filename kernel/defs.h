@@ -178,6 +178,13 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
+void            vmprint(pagetable_t, uint64);
+pagetable_t     ukvminit(void);
+void            ukvmmap(pagetable_t, uint64, uint64, uint64, int);
+int             ukvmcopy(pagetable_t, pagetable_t, uint64, uint64);
+uint64          ukvmdealloc(pagetable_t, uint64, uint64);
+void            ukfreewalk(pagetable_t);
+pte_t *         walk(pagetable_t pagetable, uint64 va, int alloc);
 
 // plic.c
 void            plicinit(void);
@@ -223,3 +230,7 @@ int             sockread(struct sock *, uint64, int);
 int             sockwrite(struct sock *, uint64, int);
 void            sockrecvudp(struct mbuf*, uint32, uint16, uint16);
 #endif
+
+// vmcopyin.c
+int             copyin_new(pagetable_t, char *, uint64, uint64);
+int             copyinstr_new(pagetable_t, char *, uint64, uint64);
