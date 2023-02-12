@@ -38,6 +38,9 @@ kvminit()
   // PLIC
   kvmmap(PLIC, PLIC, 0x400000, PTE_R | PTE_W);
 
+  printf("%s\n", "after kernel page table mapping");
+  vmprint(kernel_pagetable, 0);
+
   // map kernel text executable and read-only.
   kvmmap(KERNBASE, KERNBASE, (uint64)etext-KERNBASE, PTE_R | PTE_X);
 
@@ -47,6 +50,8 @@ kvminit()
   // map the trampoline for trap entry/exit to
   // the highest virtual address in the kernel.
   kvmmap(TRAMPOLINE, (uint64)trampoline, PGSIZE, PTE_R | PTE_X);
+
+  
 }
 
 pagetable_t
@@ -61,7 +66,7 @@ ukvminit() {
   ukvmmap(kpagetable, VIRTIO0, VIRTIO0, PGSIZE, PTE_R | PTE_W);
 
   // CLINT
-  // ukvmmap(CLINT, CLINT, 0x10000, PTE_R | PTE_W);
+  // ukvmmap(kpagetable, CLINT, CLINT, 0x10000, PTE_R | PTE_W);
 
   // PLIC
   ukvmmap(kpagetable, PLIC, PLIC, 0x400000, PTE_R | PTE_W);

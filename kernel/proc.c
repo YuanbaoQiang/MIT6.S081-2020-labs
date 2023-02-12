@@ -123,6 +123,12 @@ found:
     return 0;
   }
 
+  if (p-> pid == 1) {
+    printf("%s\n", "pid1 user process");
+    vmprint(p->pagetable, 0);
+  }
+
+
   // 进程的内核页表
   p->kpagetable = ukvminit();
   if(p->kpagetable == 0){
@@ -326,7 +332,7 @@ fork(void)
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 
-  // increment reference counts on open file descriptors.
+  // increment reference counts on open file descriptors.```
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
       np->ofile[i] = filedup(p->ofile[i]);
