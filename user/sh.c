@@ -54,6 +54,7 @@ void panic(char*);
 struct cmd *parsecmd(char*);
 
 // Execute cmd.  Never returns.
+__attribute__((noreturn))
 void
 runcmd(struct cmd *cmd)
 {
@@ -133,6 +134,8 @@ runcmd(struct cmd *cmd)
 int
 getcmd(char *buf, int nbuf)
 {
+  write(2, "$", 2);
+
   fprintf(2, "$ ");
   memset(buf, 0, nbuf);
   gets(buf, nbuf);
